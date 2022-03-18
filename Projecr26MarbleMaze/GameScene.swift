@@ -50,7 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createPlayer()
         
         physicsWorld.gravity = .zero
-        physicsWorld.contactDelegate = self
+        physicsWorld.contactDelegate = self // Устанавливается когда нужно получать сообщения о соприкосновении двух объектов
         
         motionManager = CMMotionManager()
         motionManager?.startAccelerometerUpdates()
