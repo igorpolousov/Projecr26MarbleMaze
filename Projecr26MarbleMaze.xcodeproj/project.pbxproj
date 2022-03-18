@@ -9,24 +9,24 @@
 /* Begin PBXBuildFile section */
 		C2DC042627E47CF300583D76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC042527E47CF300583D76 /* AppDelegate.swift */; };
 		C2DC042827E47CF300583D76 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C2DC042727E47CF300583D76 /* GameScene.sks */; };
-		C2DC042A27E47CF300583D76 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = C2DC042927E47CF300583D76 /* Actions.sks */; };
 		C2DC042C27E47CF300583D76 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC042B27E47CF300583D76 /* GameScene.swift */; };
 		C2DC042E27E47CF300583D76 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DC042D27E47CF300583D76 /* GameViewController.swift */; };
 		C2DC043127E47CF300583D76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2DC042F27E47CF300583D76 /* Main.storyboard */; };
 		C2DC043327E47CF600583D76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2DC043227E47CF600583D76 /* Assets.xcassets */; };
 		C2DC043627E47CF600583D76 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2DC043427E47CF600583D76 /* LaunchScreen.storyboard */; };
+		C2DC043D27E47F1F00583D76 /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = C2DC043C27E47F1F00583D76 /* level1.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C2DC042227E47CF300583D76 /* Projecr26MarbleMaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Projecr26MarbleMaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2DC042527E47CF300583D76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2DC042727E47CF300583D76 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		C2DC042927E47CF300583D76 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		C2DC042B27E47CF300583D76 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		C2DC042D27E47CF300583D76 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		C2DC043027E47CF300583D76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C2DC043227E47CF600583D76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2DC043527E47CF600583D76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C2DC043C27E47F1F00583D76 /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level1.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,11 +61,11 @@
 			children = (
 				C2DC042527E47CF300583D76 /* AppDelegate.swift */,
 				C2DC042727E47CF300583D76 /* GameScene.sks */,
-				C2DC042927E47CF300583D76 /* Actions.sks */,
 				C2DC042B27E47CF300583D76 /* GameScene.swift */,
 				C2DC042D27E47CF300583D76 /* GameViewController.swift */,
 				C2DC042F27E47CF300583D76 /* Main.storyboard */,
 				C2DC043227E47CF600583D76 /* Assets.xcassets */,
+				C2DC043C27E47F1F00583D76 /* level1.txt */,
 				C2DC043427E47CF600583D76 /* LaunchScreen.storyboard */,
 			);
 			path = Projecr26MarbleMaze;
@@ -129,11 +129,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2DC043D27E47F1F00583D76 /* level1.txt in Resources */,
 				C2DC043127E47CF300583D76 /* Main.storyboard in Resources */,
 				C2DC042827E47CF300583D76 /* GameScene.sks in Resources */,
 				C2DC043327E47CF600583D76 /* Assets.xcassets in Resources */,
 				C2DC043627E47CF600583D76 /* LaunchScreen.storyboard in Resources */,
-				C2DC042A27E47CF300583D76 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +299,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationLandscapeRight;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -310,7 +310,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -327,7 +327,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationLandscapeRight;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -338,7 +338,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
