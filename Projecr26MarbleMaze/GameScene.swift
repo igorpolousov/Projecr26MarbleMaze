@@ -1,7 +1,7 @@
 //
 //  GameScene.swift
-//  Projecr26MarbleMaze
-//
+//  Projecr26 MarbleMaze
+//  Days 85-87
 //  Created by Igor Polousov on 18.03.2022.
 //
 
