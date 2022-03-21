@@ -25,6 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isPortalActive = true
     
     var motionManager: CMMotionManager?
+    var level: Int = 1
+    var levels = [String]()
     
     var scoreLabel: SKLabelNode!
     var score = 0 {
@@ -40,12 +42,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playerStartPosition = CGPoint(x: 96, y: 672)
         
         let background = SKSpriteNode(imageNamed: "background")
+        background.name = "background"
         background.position = CGPoint(x: 512, y: 384)
         background.blendMode = .replace
         background.zPosition = -1
         addChild(background)
         
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.name = "score"
         scoreLabel.text = "Score: 0"
         scoreLabel.horizontalAlignmentMode = .left
         scoreLabel.position = CGPoint(x: 20, y: 20)
@@ -53,7 +57,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(scoreLabel)
         
         loadLevel()
-        createPlayer(at: playerStartPosition)
         
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self // Устанавливается когда нужно получать сообщения о соприкосновении двух объектов
@@ -63,8 +66,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func loadLevel() {
-        guard let levelUrl = Bundle.main.url(forResource: "level2", withExtension: "txt") else { fatalError("Couldn't find the level1.txt in the app bundle") }
-        guard let levelString = try? String(contentsOf: levelUrl) else { fatalError("Couldn't find the level1.txt in the app bundle") }
+        
+        for node in children {
+            if node.name != "background" && node.name != "score" {
+                node.removeFromParent()
+            }
+        }
+        
+        createPlayer(at: playerStartPosition)
+        
+        let fm = FileManager.default
+        let path = Bundle.main.resourcePath!
+        let items = try! fm.contentsOfDirectory(atPath: path)
+        for item in items {
+            if item.hasPrefix("level") {
+                levels.append(item)
+            }
+        }
+        guard level <= levels.count else { return }
+        
+        guard let levelUrl = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else { fatalError("Couldn't find the level.txt in the app bundle") }
+        guard let levelString = try? String(contentsOf: levelUrl) else { fatalError("Couldn't find the level.txt in the app bundle") }
         let lines = levelString.components(separatedBy: "\n")
         
         for (row,line) in lines.reversed().enumerated() {
@@ -214,20 +236,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func playerCollided(with node: SKNode) {
         
         if node.name == "vortex" {
-            player.physicsBody?.isDynamic = false
-            isGameOver =  true
-            score -= 1
-            
-            let move = SKAction.move(to: node.position, duration: 0.25)
-            let scale = SKAction.scale(to: 0.0001, duration: 0.25)
-            let remove = SKAction.removeFromParent()
-            let sequence =  SKAction.sequence([move, scale, remove])
-            
-            player.run(sequence) { [weak self] in
-                self?.loadLevel()
-                self?.createPlayer(at: self!.playerStartPosition)
-                self?.isGameOver = false
-            }
+//            player.physicsBody?.isDynamic = false
+//            isGameOver =  true
+//            score -= 1
+//
+//            let move = SKAction.move(to: node.position, duration: 0.25)
+//            let scale = SKAction.scale(to: 0.0001, duration: 0.25)
+//            let remove = SKAction.removeFromParent()
+//            let sequence =  SKAction.sequence([move, scale, remove])
+//
+//            player.run(sequence) { [weak self] in
+//                self?.loadLevel()
+//                self?.createPlayer(at: self!.playerStartPosition)
+//                self?.isGameOver = false
+//            }
             
             
         } else if node.name == "teleport" {
@@ -259,7 +281,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             score += 1
             
         } else if node.name == "finish" {
-            //go to  next level
+            level += 1
+            loadLevel()
         }
     }
 }
