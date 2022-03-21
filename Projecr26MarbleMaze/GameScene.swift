@@ -224,9 +224,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sequence =  SKAction.sequence([move, scale, remove])
             
             player.run(sequence) { [weak self] in
+                self?.loadLevel()
                 self?.createPlayer(at: self!.playerStartPosition)
                 self?.isGameOver = false
             }
+            
             
         } else if node.name == "teleport" {
             
