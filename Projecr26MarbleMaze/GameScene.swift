@@ -39,6 +39,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        levelCount()
+        
         playerStartPosition = CGPoint(x: 96, y: 672)
         
         let background = SKSpriteNode(imageNamed: "background")
@@ -65,16 +67,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         motionManager?.startAccelerometerUpdates()
     }
     
-    func loadLevel() {
-        
-        for node in children {
-            if node.name != "background" && node.name != "score" {
-                node.removeFromParent()
-            }
-        }
-        
-        createPlayer(at: playerStartPosition)
-        
+    func levelCount() {
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
@@ -83,10 +76,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 levels.append(item)
             }
         }
-        guard level <= levels.count else { return }
+    }
+    
+    func loadLevel() {
         
-        guard let levelUrl = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else { fatalError("Couldn't find the level.txt in the app bundle") }
-        guard let levelString = try? String(contentsOf: levelUrl) else { fatalError("Couldn't find the level.txt in the app bundle") }
+        
+        guard level <= levels.count else {return createEndGameLabel()}
+        print(level)
+        print(levels.count)
+
+        for node in children {
+            if node.name != "background" && node.name != "score" {
+                node.removeFromParent()
+            }
+        }
+        
+        createPlayer(at: playerStartPosition)
+        
+        guard let levelUrl = Bundle.main.url(forResource: "level\(level)", withExtension: "txt") else { fatalError("Couldn't find the level\(level).txt in the app bundle") }
+        guard let levelString = try? String(contentsOf: levelUrl) else { fatalError("Couldn't find the level\(level).txt in the app bundle") }
         let lines = levelString.components(separatedBy: "\n")
         
         for (row,line) in lines.reversed().enumerated() {
@@ -189,6 +197,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.physicsBody?.collisionBitMask = 0
         addChild(node)
         
+    }
+    
+    func createEndGameLabel() {
+        for node in children {
+            if node.name != "background" && node.name != "score" {
+                node.removeFromParent()
+            }
+        }
+        let gameOverLabel = SKLabelNode()
+        gameOverLabel.fontName = "Chalkduster"
+        gameOverLabel.fontSize = 80
+        gameOverLabel.fontColor = .systemRed
+        gameOverLabel.text = "Game Over"
+        gameOverLabel.position = CGPoint(x: 512, y: 384)
+        gameOverLabel.blendMode = .replace
+        gameOverLabel.zPosition = -1
+        addChild(gameOverLabel)
+        
+        let startNewGame = SKLabelNode()
+        startNewGame.fontName = "Chalkduster"
+        startNewGame.fontSize = 40
+        startNewGame.fontColor = .systemRed
+        startNewGame.text = "Start new game"
+        startNewGame.position = CGPoint(x: 512, y: 284)
+        startNewGame.blendMode = .replace
+        startNewGame.zPosition = -1
+        addChild(startNewGame)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
