@@ -21,6 +21,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player: SKSpriteNode!
     var lastTouchPosition: CGPoint?
+    var playerStartPosition: CGPoint!
+    var isPortalActive = true
     
     var motionManager: CMMotionManager?
     
@@ -34,6 +36,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isGameOver = false
     
     override func didMove(to view: SKView) {
+        
+        playerStartPosition = CGPoint(x: 96, y: 672)
+        
         let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x: 512, y: 384)
         background.blendMode = .replace
@@ -43,12 +48,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.text = "Score: 0"
         scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.position = CGPoint(x: 16, y: 16)
+        scoreLabel.position = CGPoint(x: 20, y: 20)
         scoreLabel.zPosition = 2
         addChild(scoreLabel)
         
         loadLevel()
-        createPlayer()
+        createPlayer(at: playerStartPosition)
         
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self // Устанавливается когда нужно получать сообщения о соприкосновении двух объектов
@@ -58,7 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func loadLevel() {
-        guard let levelUrl = Bundle.main.url(forResource: "level1", withExtension: "txt") else { fatalError("Couldn't find the level1.txt in the app bundle") }
+        guard let levelUrl = Bundle.main.url(forResource: "level2", withExtension: "txt") else { fatalError("Couldn't find the level1.txt in the app bundle") }
         guard let levelString = try? String(contentsOf: levelUrl) else { fatalError("Couldn't find the level1.txt in the app bundle") }
         let lines = levelString.components(separatedBy: "\n")
         
@@ -78,6 +83,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if letter == "f" {
                     createFinish(position: position)
 
+                } else if letter == "t" {
+                    createTeleport(position: position)
+                    
                 } else if letter == " " {
                     // do nothing
                 } else {
@@ -134,28 +142,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
    
     
-    func createPlayer() {
+    func createPlayer(at position: CGPoint) {
         player = SKSpriteNode(imageNamed: "player")
-        player.position = CGPoint(x: 96, y: 672)
+        player.position = position
         player.zPosition = 1
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width / 2)
         player.physicsBody?.allowsRotation = false
         player.physicsBody?.linearDamping = 0.5
         player.physicsBody?.categoryBitMask = CollisionTypes.player.rawValue
-        player.physicsBody?.contactTestBitMask = CollisionTypes.star.rawValue | CollisionTypes.finish.rawValue | CollisionTypes.vortex.rawValue
+        player.physicsBody?.contactTestBitMask = CollisionTypes.star.rawValue | CollisionTypes.finish.rawValue | CollisionTypes.vortex.rawValue | CollisionTypes.teleport.rawValue
         player.physicsBody?.collisionBitMask = CollisionTypes.wall.rawValue
         addChild(player)
     }
     
     func createTeleport(position: CGPoint) {
         let node = SKSpriteNode(imageNamed: "teleport")
+        node.name = "teleport"
         node.position = position
-        node.zPosition = 1
-        node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
+        //node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
+        node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+        node.physicsBody?.isDynamic = false
         node.physicsBody?.categoryBitMask = CollisionTypes.teleport.rawValue
         node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
         node.physicsBody?.collisionBitMask = 0
-        node.physicsBody?.isDynamic = false
         addChild(node)
         
     }
@@ -203,6 +212,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playerCollided(with node: SKNode) {
+        
         if node.name == "vortex" {
             player.physicsBody?.isDynamic = false
             isGameOver =  true
@@ -214,13 +224,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sequence =  SKAction.sequence([move, scale, remove])
             
             player.run(sequence) { [weak self] in
-                self?.createPlayer()
+                self?.createPlayer(at: self!.playerStartPosition)
                 self?.isGameOver = false
             }
             
+        } else if node.name == "teleport" {
+            
+            let position = node.position
+            if position != player.position {
+                isPortalActive = true
+            }
+            guard isPortalActive else { return }
+
+            player.physicsBody?.isDynamic = false
+
+            let move = SKAction.move(to: node.position, duration: 0.25)
+            let scale = SKAction.scale(to: 0.0001, duration: 0.25)
+            let remove = SKAction.removeFromParent()
+            let sequence =  SKAction.sequence([move, scale, remove])
+            
+            for node in children {
+                if node.name == "teleport" && node.position != position {
+                    player.run(sequence) { [weak self] in
+                        self?.createPlayer(at: node.position)
+                        self?.isPortalActive = false
+                    }
+                }
+            }
+           
         } else if node.name == "star" {
             node.removeFromParent()
             score += 1
+            
         } else if node.name == "finish" {
             //go to  next level
         }
