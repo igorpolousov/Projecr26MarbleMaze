@@ -15,6 +15,7 @@
 		C2DC043327E47CF600583D76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2DC043227E47CF600583D76 /* Assets.xcassets */; };
 		C2DC043627E47CF600583D76 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2DC043427E47CF600583D76 /* LaunchScreen.storyboard */; };
 		C2DC043D27E47F1F00583D76 /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = C2DC043C27E47F1F00583D76 /* level1.txt */; };
+		C2DC043F27E88B6800583D76 /* level2.txt in Resources */ = {isa = PBXBuildFile; fileRef = C2DC043E27E88B6700583D76 /* level2.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		C2DC043227E47CF600583D76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2DC043527E47CF600583D76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2DC043C27E47F1F00583D76 /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level1.txt; sourceTree = "<group>"; };
+		C2DC043E27E88B6700583D76 /* level2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level2.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				C2DC042F27E47CF300583D76 /* Main.storyboard */,
 				C2DC043227E47CF600583D76 /* Assets.xcassets */,
 				C2DC043C27E47F1F00583D76 /* level1.txt */,
+				C2DC043E27E88B6700583D76 /* level2.txt */,
 				C2DC043427E47CF600583D76 /* LaunchScreen.storyboard */,
 			);
 			path = Projecr26MarbleMaze;
@@ -131,6 +134,7 @@
 			files = (
 				C2DC043D27E47F1F00583D76 /* level1.txt in Resources */,
 				C2DC043127E47CF300583D76 /* Main.storyboard in Resources */,
+				C2DC043F27E88B6800583D76 /* level2.txt in Resources */,
 				C2DC042827E47CF300583D76 /* GameScene.sks in Resources */,
 				C2DC043327E47CF600583D76 /* Assets.xcassets in Resources */,
 				C2DC043627E47CF600583D76 /* LaunchScreen.storyboard in Resources */,
