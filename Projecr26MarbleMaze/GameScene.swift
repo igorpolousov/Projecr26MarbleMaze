@@ -25,8 +25,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isPortalActive = true
     
     var motionManager: CMMotionManager?
-    var level: Int = 1
+    var level: Int = 2
     var levels = [String]()
+    
+    var startNewGameLabel: SKLabelNode!
+    var gameOverLabel: SKLabelNode!
     
     var scoreLabel: SKLabelNode!
     var score = 0 {
@@ -40,6 +43,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         levelCount()
+        
+        startNewGameLabel = SKLabelNode()
+        //gameOverLabel = SKLabelNode()
         
         playerStartPosition = CGPoint(x: 96, y: 672)
         
@@ -80,16 +86,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func loadLevel() {
         
-        
         guard level <= levels.count else {return createEndGameLabel()}
-        print(level)
-        print(levels.count)
-
-        for node in children {
-            if node.name != "background" && node.name != "score" {
-                node.removeFromParent()
-            }
-        }
+        
+        removeNodes()
         
         createPlayer(at: playerStartPosition)
         
@@ -199,37 +198,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func createEndGameLabel() {
+    func removeNodes() {
         for node in children {
             if node.name != "background" && node.name != "score" {
                 node.removeFromParent()
             }
         }
-        let gameOverLabel = SKLabelNode()
+    }
+    
+    func createEndGameLabel() {
+        removeNodes()
+        
+        gameOverLabel = SKLabelNode()
         gameOverLabel.fontName = "Chalkduster"
         gameOverLabel.fontSize = 80
         gameOverLabel.fontColor = .systemRed
         gameOverLabel.text = "Game Over"
         gameOverLabel.position = CGPoint(x: 512, y: 384)
         gameOverLabel.blendMode = .replace
-        gameOverLabel.zPosition = -1
+        gameOverLabel.zPosition = 1
         addChild(gameOverLabel)
         
-        let startNewGame = SKLabelNode()
-        startNewGame.fontName = "Chalkduster"
-        startNewGame.fontSize = 40
-        startNewGame.fontColor = .systemRed
-        startNewGame.text = "Start new game"
-        startNewGame.position = CGPoint(x: 512, y: 284)
-        startNewGame.blendMode = .replace
-        startNewGame.zPosition = -1
-        addChild(startNewGame)
+        startNewGameLabel = SKLabelNode()
+        startNewGameLabel.fontName = "Chalkduster"
+        startNewGameLabel.fontSize = 40
+        startNewGameLabel.fontColor = .systemRed
+        startNewGameLabel.text = "Start new game"
+        startNewGameLabel.position = CGPoint(x: 512, y: 300)
+        startNewGameLabel.blendMode = .replace
+        startNewGameLabel.zPosition = 1
+        addChild(startNewGameLabel)
+        
+        
     }
+    
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
+        let object = nodes(at: location)
         lastTouchPosition = location
+        
+        if object.contains(startNewGameLabel) {
+            score = 0
+            level = 1
+            isGameOver = false
+            gameOverLabel.removeFromParent()
+            startNewGameLabel.removeFromParent()
+            loadLevel()
+            
+        }
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
