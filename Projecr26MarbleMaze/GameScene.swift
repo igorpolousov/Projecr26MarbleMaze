@@ -25,7 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isPortalActive = true
     
     var motionManager: CMMotionManager?
-    var level: Int = 2
+    var level: Int = 1
     var levels = [String]()
     
     var startNewGameLabel: SKLabelNode!
@@ -291,20 +291,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func playerCollided(with node: SKNode) {
         
         if node.name == "vortex" {
-//            player.physicsBody?.isDynamic = false
-//            isGameOver =  true
-//            score -= 1
-//
-//            let move = SKAction.move(to: node.position, duration: 0.25)
-//            let scale = SKAction.scale(to: 0.0001, duration: 0.25)
-//            let remove = SKAction.removeFromParent()
-//            let sequence =  SKAction.sequence([move, scale, remove])
-//
-//            player.run(sequence) { [weak self] in
-//                self?.loadLevel()
-//                self?.createPlayer(at: self!.playerStartPosition)
-//                self?.isGameOver = false
-//            }
+            player.physicsBody?.isDynamic = false
+            isGameOver =  true
+            score -= 1
+
+            let move = SKAction.move(to: node.position, duration: 0.25)
+            let scale = SKAction.scale(to: 0.0001, duration: 0.25)
+            let remove = SKAction.removeFromParent()
+            let sequence =  SKAction.sequence([move, scale, remove])
+
+            player.run(sequence) { [weak self] in
+                self?.loadLevel()
+                self?.createPlayer(at: self!.playerStartPosition)
+                self?.isGameOver = false
+            }
             
             
         } else if node.name == "teleport" {
